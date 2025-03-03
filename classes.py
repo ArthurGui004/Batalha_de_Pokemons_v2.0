@@ -1,3 +1,4 @@
+from __future__ import annotations
 from random import randint
 from cores import cor
 
@@ -5,12 +6,15 @@ class Pokemon:
     def __init__(self):
         self.nome = None
         self.vida = randint(100, 150)
+        self.vida_max = self.vida
         self.ataques = [randint(30, 50) for x in range(4)]
         self.resistencia = randint(0, 30)
+        self.bloqueio = False
         self.elemento = None
         self.cor = None
 
-    def atacar(self, rival):
+    def atacar(self, rival: Pokemon, bloqueio: bool) -> int:
+        self.bloqueio = False
         print('='*30)
         print(f'Lista de ataques {self.nome}:'.center(30))
         print('='*30)
@@ -25,10 +29,45 @@ class Pokemon:
             if escolhido < 0 or escolhido > 4:
                 print('ERRO! Digite um número válido.')
             else:
-                reducao_dmg = self.ataques[escolhido] - rival.resistencia
-                if reducao_dmg > 0:
-                    return reducao_dmg
-                return 0
+                if bloqueio:
+                    reducao_dmg = self.ataques[escolhido] - rival.bloquear()
+                    if reducao_dmg > 0:
+                        return reducao_dmg
+                    return 0
+
+                else:
+                    reducao_dmg = self.ataques[escolhido] - rival.resistencia
+                    if reducao_dmg > 0:
+                        return reducao_dmg
+                    return 0
+    
+    def bloquear(self) -> int:
+        self.bloqueio = True
+        return self.resistencia * 2
+    
+    def curar(self) -> str | int:
+        self.bloqueio = False
+        if self.vida < self.vida_max:
+            if (self.vida+20) > self.vida_max:
+                self.vida = self.vida_max
+                print(f'Curado {self.vida_max-self.vida} de HP')
+            else:
+                self.vida += 20
+                print('Curado 20 de HP')
+        else:
+            print('Sua vida está cheia!')
+
+    def agir(self) -> int:
+        print('''
+1- Atacar
+2- Bloquear
+3- Se Curar''')
+        while True:
+            escolha = int(input('Sua escolha: '))
+            if escolha < 0 or escolha > 3:
+                print("Erro. Escolha um número que esteja no menu.")
+            else:
+                return escolha
 
                 
 
@@ -41,13 +80,11 @@ class Tipo_Agua(Pokemon):
 
     def definir_relacao(self, rival: Pokemon):
         if rival.elemento == 'fogo':
-            for index in range(len(self.ataques)):
-                self.ataques[index] *= 2
+            self.ataques = [atk * 2 for atk in self.ataques]
             print(f'O {self.nome} tem vantagem nessa luta')
 
         elif rival.elemento == 'eletrico':
-            for index in range(len(self.ataques)):
-                self.ataques[index] *= 0.5
+            self.ataques = [atk * 0.5 for atk in self.ataques]
             print(f'O {self.nome} tem desvantagem nessa luta')
 
         else:
@@ -63,13 +100,11 @@ class Tipo_Fogo(Pokemon):
 
     def definir_relacao(self, rival: Pokemon):
         if rival.elemento == 'terra':
-            for index in range(len(self.ataques)):
-                self.ataques[index] *= 2
+            self.ataques = [atk * 2 for atk in self.ataques]
             print(f'O {self.nome} tem vantagem nessa luta')
 
         elif rival.elemento == 'agua':
-            for index in range(len(self.ataques)):
-                self.ataques[index] *= 0.5
+            self.ataques = [atk * 0.5 for atk in self.ataques]
             print(f'O {self.nome} tem desvantagem nessa luta')
 
         else:
@@ -86,13 +121,11 @@ class Tipo_Terra(Pokemon):
 
     def definir_relacao(self, rival: Pokemon):
         if rival.elemento == 'eletrico':
-            for index in range(len(self.ataques)):
-                self.ataques[index] *= 2
+            self.ataques = [atk * 2 for atk in self.ataques]
             print(f'O {self.nome} tem vantagem nessa luta')
 
         elif rival.elemento == 'fogo':
-            for index in range(len(self.ataques)):
-                self.ataques[index] *= 0.5
+            self.ataques = [atk * 0.5 for atk in self.ataques]
             print(f'O {self.nome} tem desvantagem nessa luta')
 
         else:
@@ -109,13 +142,11 @@ class Tipo_Eletrico(Pokemon):
 
     def definir_relacao(self, rival: Pokemon):
         if rival.elemento == 'agua':
-            for index in range(len(self.ataques)):
-                self.ataques[index] *= 2
+            self.ataques = [atk * 2 for atk in self.ataques]
             print(f'O {self.nome} tem vantagem nessa luta')
 
         elif rival.elemento == 'terra':
-            for index in range(len(self.ataques)):
-                self.ataques[index] *= 0.5
+            self.ataques = [atk * 0.5 for atk in self.ataques]
             print(f'O {self.nome} tem desvantagem nessa luta')
             
         else:
