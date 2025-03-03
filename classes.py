@@ -3,7 +3,9 @@ from random import randint
 from cores import cor
 
 class Pokemon:
+    '''Modela todos os Tipos de pokémons.'''
     def __init__(self):
+        '''Método construtor.'''
         self.nome = None
         self.vida = randint(100, 150)
         self.vida_max = self.vida
@@ -14,6 +16,14 @@ class Pokemon:
         self.cor = None
 
     def atacar(self, rival: Pokemon, bloqueio: bool) -> int:
+        '''Função para o pokémon atacar.
+        
+        Parâmetros:
+            rival -> Pokémon adversário
+            bloqueio -> True se o adversário estiver bloqueando, False se o adversário não estiver bloqueando
+        
+        Retorna o dano advindo do ataque realizado pelo pokémon
+        '''
         self.bloqueio = False
         print('='*30)
         print(f'Lista de ataques {self.nome}:'.center(30))
@@ -42,10 +52,18 @@ class Pokemon:
                     return 0
     
     def bloquear(self) -> int:
+        '''Função para o pokémon bloquear.
+        
+        Retorna o dobro da resistência do pokémon
+        '''
         self.bloqueio = True
         return self.resistencia * 2
     
     def curar(self) -> str | int:
+        '''Função para o pokémon se curar.
+        
+        Retorna um inteiro correspondente ao quanto de vida o pokémon vai recuperar
+        '''
         self.bloqueio = False
         if self.vida < self.vida_max:
             if (self.vida+20) > self.vida_max:
@@ -58,6 +76,10 @@ class Pokemon:
             print('Sua vida está cheia!')
 
     def agir(self) -> int:
+        '''Função para escolher o que o pokémon vai fazer.
+        
+        Retorna o número escolhido
+        '''
         print('''
 1- Atacar
 2- Bloquear
@@ -72,13 +94,19 @@ class Pokemon:
                 
 
 class Tipo_Agua(Pokemon):
+    '''Modela o Tipos de pokémons Água.'''
     def __init__(self):
         super().__init__()
+        '''Método construtor.'''
         self.nome = 'Squid Turtle'
         self.elemento = f'agua'
         self.cor = cor('azul claro')
 
     def definir_relacao(self, rival: Pokemon):
+        '''Função que define a vantagem e desvantagem do pokémon em relação ao seu adversário.
+        
+        Parâmetros:
+            rival -> Pokémon adversário'''
         if rival.elemento == 'fogo':
             self.ataques = [atk * 2 for atk in self.ataques]
             print(f'O {self.nome} tem vantagem nessa luta')
@@ -92,13 +120,19 @@ class Tipo_Agua(Pokemon):
 
 
 class Tipo_Fogo(Pokemon):
+    '''Modela o Tipos de pokémons fogo.'''
     def __init__(self):
         super().__init__()
+        '''Método construtor.'''
         self.nome = 'Xamandi'
         self.elemento = 'fogo'
         self.cor = cor('vermelho')
 
     def definir_relacao(self, rival: Pokemon):
+        '''Função que define a vantagem e desvantagem do pokémon em relação ao seu adversário.
+        
+        Parâmetros:
+            rival -> Pokémon adversário'''
         if rival.elemento == 'terra':
             self.ataques = [atk * 2 for atk in self.ataques]
             print(f'O {self.nome} tem vantagem nessa luta')
@@ -113,13 +147,19 @@ class Tipo_Fogo(Pokemon):
 
 
 class Tipo_Terra(Pokemon):
+    '''Modela o Tipos de pokémons terra.'''
     def __init__(self):
         super().__init__()
+        '''Método construtor.'''
         self.nome = 'Bombasal'
         self.elemento = 'terra'
         self.cor = cor('verde')
 
     def definir_relacao(self, rival: Pokemon):
+        '''Função que define a vantagem e desvantagem do pokémon em relação ao seu adversário.
+        
+        Parâmetros:
+            rival -> Pokémon adversário'''
         if rival.elemento == 'eletrico':
             self.ataques = [atk * 2 for atk in self.ataques]
             print(f'O {self.nome} tem vantagem nessa luta')
@@ -134,13 +174,19 @@ class Tipo_Terra(Pokemon):
 
 
 class Tipo_Eletrico(Pokemon):
+    '''Modela o Tipos de pokémons elétricos.'''
     def __init__(self):
         super().__init__()
+        '''Método construtor.'''
         self.nome = 'Shokito'
         self.elemento = 'eletrico'
         self.cor = cor('amarelo')
 
     def definir_relacao(self, rival: Pokemon):
+        '''Função que define a vantagem e desvantagem do pokémon em relação ao seu adversário.
+        
+        Parâmetros:
+            rival -> Pokémon adversário'''
         if rival.elemento == 'agua':
             self.ataques = [atk * 2 for atk in self.ataques]
             print(f'O {self.nome} tem vantagem nessa luta')
