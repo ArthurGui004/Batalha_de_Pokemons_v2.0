@@ -1,5 +1,6 @@
 from classes import *
 from terminal import *
+from arquivo import exibir_ranking, adicionar_ou_atualizar_usuario
 from time import sleep
 import os
 
@@ -38,11 +39,12 @@ def main():
 
     sleep(2)
     os.system('cls' if os.name == 'nt' else 'clear')
+    print('HORA DE APOSTAR!!!')
+    aposta = int(input('Quanto você quer apostar? (Só recebemos valores inteiros) -> '))
     player_1.definir_relacao(player_2)
     player_2.definir_relacao(player_1)
 
-    vitoria = False
-    while not vitoria:
+    while True:
         print('='*45)
         print('PLAYER 1 TURN'.center(45))
         print('='*45)
@@ -60,6 +62,8 @@ def main():
 
         sleep(2)
         os.system('cls' if os.name == 'nt' else 'clear')
+        if player_1.vida <= 0 or player_2.vida <= 0:
+            break
 
         print('='*45)
         print('PLAYER 2 TURN'.center(45))
@@ -78,13 +82,21 @@ def main():
 
         sleep(2)
         os.system('cls' if os.name == 'nt' else 'clear')
-        if player_1.vida < 0 or player_2.vida < 0:
-            vitoria = True
+        if player_1.vida <= 0 or player_2.vida <= 0:
+            break
 
-    if player_1.vida < 0:
+    if player_1.vida <= 0:
         print('O player 2 ganhou!')
+        print('Agora coloque seu nome para registramos sua vitória!')
+        nome = str(input('Digite seu nome: '))
+        adicionar_ou_atualizar_usuario(nome, aposta*2)
+        exibir_ranking()
+
     else:
         print('O player 1 ganhou!')
+        nome = str(input('Digite seu nome: '))
+        adicionar_ou_atualizar_usuario(nome, aposta*2)
+        exibir_ranking()
     
 if __name__ == '__main__':
     main()
