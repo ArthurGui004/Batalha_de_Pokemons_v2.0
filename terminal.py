@@ -12,6 +12,16 @@ def info_pokemon(pokemon1: Pokemon, pokemon2: Pokemon):
     print(f'\nElemento: {pokemon1.elemento}              Elemento: {pokemon2.elemento}')
 
 def introducao():
+    print('''
+Bem Vindo ao RINHA DE POKÉMONS!
+
+Este é um jogo criado por Arthur e inspirado na franquia de Pokémon.
+O jogo é uma versão de terminal onde o usuário aposta dinheiro fictício 
+com os amigos para ver qual pokémon vence a batalha. Aproveite o conteúdo!
+
+Créditos:
+Progamação do game: Arthur
+    ''')
     print('='*30)
     print('ESCOLHA O POKEMON'.center(30))
     print('='*30)
